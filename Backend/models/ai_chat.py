@@ -7,12 +7,11 @@ from sqlalchemy.sql import func
 from models import Base
 
 
-class News(Base):
-    __tablename__ = "news"
+class AIChat(Base):
+    __tablename__ = "ai_chat"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str] = mapped_column(String(255))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    role: Mapped[str] = mapped_column(String(20))
     content: Mapped[str] = mapped_column(Text)
-    author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    category_id: Mapped[int] = mapped_column(ForeignKey("news_category.id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())

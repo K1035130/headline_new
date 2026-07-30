@@ -16,7 +16,16 @@ sys.path.insert(0, str(BACKEND_DIR))
 load_dotenv(BACKEND_DIR / ".env")
 
 from models import Base  # noqa: E402
-from models import news, users  # noqa: E402,F401
+from models import (  # noqa: E402,F401
+    ai_chat,
+    favorite,
+    history,
+    news,
+    news_category,
+    related_news,
+    user_token,
+    users,
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
