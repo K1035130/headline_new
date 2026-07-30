@@ -1,0 +1,8 @@
+### Health check
+GET http://127.0.0.1:8000/health
+
+### List news
+GET http://127.0.0.1:8000/news/
+
+### List users
+GET http://127.0.0.1:8000/users/
