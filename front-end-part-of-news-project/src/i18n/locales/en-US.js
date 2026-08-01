@@ -12,7 +12,8 @@ export default {
     login: 'Login',
     register: 'Register',
     logout: 'Logout',
-    allCategories: 'All Categories'
+    allCategories: 'All Categories',
+    notice: 'Notice'
   },
   nav: {
     home: 'Home',
@@ -42,7 +43,12 @@ export default {
     title: 'AI Chat',
     placeholder: 'Enter your question...',
     send: 'Send',
-    thinking: 'AI is thinking...'
+    thinking: 'AI is thinking...',
+    welcomeMessage: 'Hello! I\'m your AI assistant, how can I help you today?',
+    apiKeyNotConfigured: 'API key is not configured, please contact the administrator',
+    errorOccurred: 'An error occurred',
+    checkNetworkAndSettings: 'Please check your network connection and API settings',
+    noResponseFallback: 'Sorry, I could not generate a response. Please check the API settings or try again later.'
   },
   my: {
     title: 'My',
@@ -74,6 +80,80 @@ export default {
     title: 'Profile',
     username: 'Username',
     bio: 'Bio',
-    save: 'Save Changes'
+    save: 'Save Changes',
+    avatar: 'Avatar',
+    accountId: 'Account ID',
+    noBio: 'No bio yet',
+    changePassword: 'Change Password',
+    currentPassword: 'Current Password',
+    newPassword: 'New Password',
+    confirmPassword: 'Confirm Password',
+    loading: 'Loading...',
+    saving: 'Saving...',
+    changingPassword: 'Changing...',
+    passwordChangeSuccess: 'Password changed successfully',
+    passwordChangeFailed: 'Password change failed',
+    enterCurrentPassword: 'Please enter your current password',
+    enterNewPassword: 'Please enter a new password',
+    passwordMismatch: 'Passwords do not match',
+    editBio: 'Edit Bio',
+    bioUpdateSuccess: 'Bio updated successfully',
+    bioUpdateFailed: 'Bio update failed',
+    getUserInfoFailed: 'Failed to get user info'
+  },
+  login: {
+    title: 'Login',
+    appName: 'News',
+    usernameLabel: 'Username',
+    usernamePlaceholder: 'Enter username',
+    usernameRequired: 'Username is required',
+    passwordLabel: 'Password',
+    passwordPlaceholder: 'Enter password',
+    passwordRequired: 'Password is required',
+    submit: 'Login',
+    testAccount: 'Test account: admin',
+    testPassword: 'Test password: 123456',
+    loggingIn: 'Logging in...',
+    loginFailed: 'Login failed, please try again later'
+  },
+  register: {
+    title: 'Register',
+    confirmPasswordLabel: 'Confirm Password',
+    confirmPasswordPlaceholder: 'Enter password again',
+    confirmPasswordRequired: 'Please confirm your password',
+    passwordMismatch: 'Passwords do not match',
+    submit: 'Register',
+    alreadyHaveAccount: 'Already have an account?',
+    goToLogin: 'Login',
+    registering: 'Registering...',
+    registerFailed: 'Registration failed, please try again later'
+  },
+  favorite: {
+    title: 'My Favorites',
+    clear: 'Clear',
+    favoritedAt: 'Favorited at',
+    empty: 'No favorites yet',
+    confirmDelete: 'Delete this favorite?',
+    confirmClear: 'Clear all favorites?'
+  },
+  history: {
+    title: 'History',
+    clear: 'Clear',
+    viewedAt: 'Viewed at',
+    empty: 'No history yet',
+    confirmDelete: 'Delete this history entry?',
+    confirmClear: 'Clear all browsing history?',
+    deleteFailed: 'Delete failed, please try again',
+    clearFailed: 'Clear failed, please try again'
+  },
+  newsDetail: {
+    title: 'News Detail',
+    views: 'views',
+    relatedNews: 'Related News',
+    loading: 'Loading...',
+    loginToFavorite: 'Please log in to add favorites',
+    addedToFavorite: 'Added to favorites',
+    removedFromFavorite: 'Removed from favorites',
+    operationFailed: 'Operation failed, please try again'
   }
 };

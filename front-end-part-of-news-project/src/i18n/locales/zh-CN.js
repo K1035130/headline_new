@@ -12,7 +12,8 @@ export default {
     login: '登录',
     register: '注册',
     logout: '退出登录',
-    allCategories: '全部分类'
+    allCategories: '全部分类',
+    notice: '提示'
   },
   nav: {
     home: '首页',
@@ -40,9 +41,14 @@ export default {
   },
   aiChat: {
     title: 'AI问答',
-    placeholder: '请输入您的问题...',
+    placeholder: '请输入问题...',
     send: '发送',
-    thinking: 'AI思考中...'
+    thinking: 'AI思考中...',
+    welcomeMessage: '你好！我是AI助手，有什么可以帮助你的吗？',
+    apiKeyNotConfigured: 'API Key未配置，请联系管理员',
+    errorOccurred: '发生错误',
+    checkNetworkAndSettings: '请检查网络连接和API设置',
+    noResponseFallback: '抱歉，我无法生成回复。请检查API设置或稍后再试。'
   },
   my: {
     title: '我的',
@@ -74,6 +80,80 @@ export default {
     title: '个人信息',
     username: '用户名',
     bio: '个人简介',
-    save: '保存修改'
+    save: '保存修改',
+    avatar: '头像',
+    accountId: '账号ID',
+    noBio: '暂无简介',
+    changePassword: '修改密码',
+    currentPassword: '当前密码',
+    newPassword: '新密码',
+    confirmPassword: '确认密码',
+    loading: '加载中...',
+    saving: '保存中...',
+    changingPassword: '修改中...',
+    passwordChangeSuccess: '密码修改成功',
+    passwordChangeFailed: '密码修改失败',
+    enterCurrentPassword: '请输入当前密码',
+    enterNewPassword: '请输入新密码',
+    passwordMismatch: '两次密码输入不一致',
+    editBio: '修改个人简介',
+    bioUpdateSuccess: '个人简介修改成功',
+    bioUpdateFailed: '个人简介修改失败',
+    getUserInfoFailed: '获取用户信息失败'
+  },
+  login: {
+    title: '用户登录',
+    appName: '新闻资讯',
+    usernameLabel: '用户名',
+    usernamePlaceholder: '请输入用户名',
+    usernameRequired: '请填写用户名',
+    passwordLabel: '密码',
+    passwordPlaceholder: '请输入密码',
+    passwordRequired: '请填写密码',
+    submit: '登录',
+    testAccount: '测试账号：admin',
+    testPassword: '测试密码：123456',
+    loggingIn: '登录中...',
+    loginFailed: '登录失败，请稍后再试'
+  },
+  register: {
+    title: '用户注册',
+    confirmPasswordLabel: '确认密码',
+    confirmPasswordPlaceholder: '请再次输入密码',
+    confirmPasswordRequired: '请确认密码',
+    passwordMismatch: '两次密码不一致',
+    submit: '注册',
+    alreadyHaveAccount: '已有账号？',
+    goToLogin: '去登录',
+    registering: '注册中...',
+    registerFailed: '注册失败，请稍后再试'
+  },
+  favorite: {
+    title: '我的收藏',
+    clear: '清空',
+    favoritedAt: '收藏时间',
+    empty: '暂无收藏内容',
+    confirmDelete: '确定要删除这条收藏吗？',
+    confirmClear: '确定要清空所有收藏吗？'
+  },
+  history: {
+    title: '浏览历史',
+    clear: '清空',
+    viewedAt: '浏览时间',
+    empty: '暂无浏览历史',
+    confirmDelete: '确定要删除这条浏览记录吗？',
+    confirmClear: '确定要清空所有浏览历史吗？',
+    deleteFailed: '删除失败，请稍后重试',
+    clearFailed: '清空失败，请稍后重试'
+  },
+  newsDetail: {
+    title: '新闻详情',
+    views: '阅读',
+    relatedNews: '相关推荐',
+    loading: '加载中...',
+    loginToFavorite: '请先登录后再收藏',
+    addedToFavorite: '已添加到收藏',
+    removedFromFavorite: '已取消收藏',
+    operationFailed: '操作失败，请稍后重试'
   }
 };

@@ -1,12 +1,12 @@
 <template>
   <div class="login-page">
     <van-nav-bar
-      title="用户登录"
+      :title="$t('login.title')"
       left-arrow
       @click-left="onClickLeft"
       fixed
     />
-    
+
     <div class="login-container">
       <div class="login-logo">
         <van-image
@@ -15,37 +15,37 @@
           src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
           round
         />
-        <h2>新闻资讯</h2>
+        <h2>{{ $t('login.appName') }}</h2>
       </div>
-      
+
       <van-form @submit="onSubmit" class="login-form">
         <van-cell-group inset>
           <van-field
             v-model="username"
             name="username"
-            label="用户名"
-            placeholder="请输入用户名"
-            :rules="[{ required: true, message: '请填写用户名' }]"
+            :label="$t('login.usernameLabel')"
+            :placeholder="$t('login.usernamePlaceholder')"
+            :rules="[{ required: true, message: $t('login.usernameRequired') }]"
           />
           <van-field
             v-model="password"
             type="password"
             name="password"
-            label="密码"
-            placeholder="请输入密码"
-            :rules="[{ required: true, message: '请填写密码' }]"
+            :label="$t('login.passwordLabel')"
+            :placeholder="$t('login.passwordPlaceholder')"
+            :rules="[{ required: true, message: $t('login.passwordRequired') }]"
           />
         </van-cell-group>
-        
+
         <div class="submit-btn">
           <van-button round block type="primary" native-type="submit" size="large">
-            登录
+            {{ $t('login.submit') }}
           </van-button>
         </div>
-        
+
         <div class="login-tips">
-          <p>测试账号：admin</p>
-          <p>测试密码：123456</p>
+          <p>{{ $t('login.testAccount') }}</p>
+          <p>{{ $t('login.testPassword') }}</p>
         </div>
       </van-form>
     </div>
@@ -56,10 +56,12 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { showToast } from 'vant';
+import { useI18n } from 'vue-i18n';
 import { useUserStore } from '../store/user';
 
 const router = useRouter();
 const userStore = useUserStore();
+const { t } = useI18n();
 
 const username = ref('');
 const password = ref('');
@@ -68,7 +70,7 @@ const onSubmit = async (values) => {
   // 显示加载提示
   showToast({
     type: 'loading',
-    message: '登录中...',
+    message: t('login.loggingIn'),
     forbidClick: true,
     duration: 0
   });
@@ -96,7 +98,7 @@ const onSubmit = async (values) => {
   } catch (error) {
     showToast({
       type: 'fail',
-      message: '登录失败，请稍后再试'
+      message: t('login.loginFailed')
     });
   }
 };

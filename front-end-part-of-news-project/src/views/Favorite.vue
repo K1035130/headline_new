@@ -1,11 +1,11 @@
 <template>
   <div class="favorite-container">
     <van-nav-bar
-      title="我的收藏"
-      left-text="返回"
+      :title="$t('favorite.title')"
+      :left-text="$t('common.back')"
       left-arrow
       @click-left="onClickLeft"
-      right-text="清空"
+      :right-text="$t('favorite.clear')"
       @click-right="onClickClear"
       fixed
     />
@@ -23,7 +23,7 @@
                 <div class="news-meta">
                   <span>{{ item.author }}</span>
                   <span>{{ item.publishTime }}</span>
-                  <span>收藏时间: {{ item.favoriteTime }}</span>
+                  <span>{{ $t('favorite.favoritedAt') }}: {{ item.favoriteTime }}</span>
                 </div>
               </div>
             </div>
@@ -39,7 +39,7 @@
       </div>
     </div>
     
-    <van-empty v-else description="暂无收藏内容" />
+    <van-empty v-else :description="$t('favorite.empty')" />
   </div>
 </template>
 
@@ -48,9 +48,11 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useFavoriteStore } from '../store/modules/favorite';
 import { showDialog } from 'vant';
+import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
 const favoriteStore = useFavoriteStore();
+const { t } = useI18n();
 
 // 返回上一页
 const onClickLeft = () => {
@@ -74,8 +76,8 @@ const removeFavorite = async (newsId) => {
 // 确认删除
 const confirmDelete = (newsId) => {
   showDialog({
-    title: '提示',
-    message: '确定要删除这条收藏吗？',
+    title: t('common.notice'),
+    message: t('favorite.confirmDelete'),
     showCancelButton: true,
   }).then((action) => {
     if (action === 'confirm') {
@@ -87,8 +89,8 @@ const confirmDelete = (newsId) => {
 // 清空收藏
 const onClickClear = async () => {
   showDialog({
-    title: '提示',
-    message: '确定要清空所有收藏吗？',
+    title: t('common.notice'),
+    message: t('favorite.confirmClear'),
     showCancelButton: true,
   }).then(async (action) => {
     if (action === 'confirm') {

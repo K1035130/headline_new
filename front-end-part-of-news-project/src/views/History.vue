@@ -1,11 +1,11 @@
 <template>
   <div class="history-container">
     <van-nav-bar
-      title="浏览历史"
-      left-text="返回"
+      :title="$t('history.title')"
+      :left-text="$t('common.back')"
       left-arrow
       @click-left="onClickLeft"
-      right-text="清空"
+      :right-text="$t('history.clear')"
       @click-right="onClickClear"
       fixed
     />
@@ -23,7 +23,7 @@
                 <div class="news-meta">
                   <span>{{ item.author }}</span>
                   <span>{{ item.publishTime }}</span>
-                  <span>浏览时间: {{ item.viewTime }}</span>
+                  <span>{{ $t('history.viewedAt') }}: {{ item.viewTime }}</span>
                 </div>
               </div>
             </div>
@@ -39,7 +39,7 @@
       </div>
     </div>
     
-    <van-empty v-else description="暂无浏览历史" />
+    <van-empty v-else :description="$t('history.empty')" />
   </div>
 </template>
 
@@ -48,9 +48,11 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useHistoryStore } from '../store/modules/history';
 import { showDialog } from 'vant';
+import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
 const historyStore = useHistoryStore();
+const { t } = useI18n();
 
 // 返回上一页
 const onClickLeft = () => {
@@ -71,8 +73,8 @@ const removeHistory = async (id) => {
     // 如果API请求失败且不是本地操作，则显示错误提示
     if (!result.success && !result.isLocal) {
       showDialog({
-        title: '提示',
-        message: result.message || '删除失败，请稍后重试',
+        title: t('common.notice'),
+        message: result.message || t('history.deleteFailed'),
       });
     }
   } catch (error) {
@@ -85,8 +87,8 @@ const removeHistory = async (id) => {
 // 确认删除
 const confirmDelete = (id) => {
   showDialog({
-    title: '提示',
-    message: '确定要删除这条浏览记录吗？',
+    title: t('common.notice'),
+    message: t('history.confirmDelete'),
     showCancelButton: true,
   }).then((action) => {
     if (action === 'confirm') {
@@ -98,8 +100,8 @@ const confirmDelete = (id) => {
 // 清空历史记录
 const onClickClear = async () => {
   showDialog({
-    title: '提示',
-    message: '确定要清空所有浏览历史吗？',
+    title: t('common.notice'),
+    message: t('history.confirmClear'),
     showCancelButton: true,
   }).then(async (action) => {
     if (action === 'confirm') {
@@ -110,8 +112,8 @@ const onClickClear = async () => {
         // 如果API请求失败且不是本地操作，则显示错误提示
         if (!result.success && !result.isLocal) {
           showDialog({
-            title: '提示',
-            message: result.message || '清空失败，请稍后重试',
+            title: t('common.notice'),
+            message: result.message || t('history.clearFailed'),
           });
         }
       } catch (error) {

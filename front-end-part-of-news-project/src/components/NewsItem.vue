@@ -6,7 +6,7 @@
       <div class="news-info">
         <span>{{ news.author }}</span>
         <span>{{ news.publishTime }}</span>
-        <span>{{ news.views }} 阅读</span>
+        <span>{{ news.views }} {{ $t('newsDetail.views') }}</span>
       </div>
     </div>
     <div class="news-image">

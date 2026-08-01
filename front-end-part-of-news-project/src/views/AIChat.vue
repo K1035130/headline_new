@@ -1,6 +1,6 @@
 <template>
   <div class="ai-chat-container">
-    <van-nav-bar title="AI问答" fixed />
+    <van-nav-bar :title="$t('aiChat.title')" fixed />
     
     <div class="chat-content">
       <div class="messages-container" ref="messagesContainer">
@@ -26,17 +26,17 @@
           rows="1"
           autosize
           type="textarea"
-          placeholder="请输入问题..."
+          :placeholder="$t('aiChat.placeholder')"
           class="chat-input"
           @keypress.enter.prevent="sendMessage"
         />
-        <van-button 
-          type="primary" 
-          class="send-button" 
-          :disabled="isLoading || !userInput.trim()" 
+        <van-button
+          type="primary"
+          class="send-button"
+          :disabled="isLoading || !userInput.trim()"
           @click="sendMessage"
         >
-          发送
+          {{ $t('aiChat.send') }}
         </van-button>
       </div>
     </div>
@@ -51,11 +51,14 @@ import TabBar from '../components/TabBar.vue';
 import { showToast } from 'vant';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
+import { useI18n } from 'vue-i18n';
 import { aiChatConfig } from '../config/api';
+
+const { t } = useI18n();
 
 // 聊天消息
 const messages = ref([
-  { role: 'assistant', content: '你好！我是AI助手，有什么可以帮助你的吗？' }
+  { role: 'assistant', content: t('aiChat.welcomeMessage') }
 ]);
 const userInput = ref('');
 const messagesContainer = ref(null);
@@ -79,7 +82,7 @@ const sendMessage = async () => {
   
   // 检查API设置
   if (!apiKey.value || apiKey.value === 'your-api-key-here') {
-    showToast('API Key未配置，请联系管理员');
+    showToast(t('aiChat.apiKeyNotConfigured'));
     return;
   }
   
@@ -102,7 +105,7 @@ const sendMessage = async () => {
   } catch (error) {
     console.error('Error fetching AI response:', error);
     // 更新最后一条消息为错误信息
-    messages.value[messages.value.length - 1].content = `发生错误: ${error.message || '请检查网络连接和API设置'}`;
+    messages.value[messages.value.length - 1].content = `${t('aiChat.errorOccurred')}: ${error.message || t('aiChat.checkNetworkAndSettings')}`;
   } finally {
     isLoading.value = false;
     await nextTick();
@@ -178,7 +181,7 @@ const fetchAIResponse = async (userMessage) => {
   
   // 如果没有收到任何内容
   if (!aiResponse) {
-    messages.value[messages.value.length - 1].content = '抱歉，我无法生成回复。请检查API设置或稍后再试。';
+    messages.value[messages.value.length - 1].content = t('aiChat.noResponseFallback');
   }
   } catch (error) {
     console.error('Fetch error:', error);
