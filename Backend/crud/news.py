@@ -3,7 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.news import News
 from models.news_category import NewsCategory
-from models.related_news import RelatedNews
+
+RELATED_NEWS_LIMIT = 3
 
 
 async def get_categories(db: AsyncSession, skip: int = 0, limit: int = 100):
@@ -38,6 +39,7 @@ async def get_news_by_category(db: AsyncSession, category_id: int, page: int = 1
 async def get_news_detail(db: AsyncSession, news_id: int):
     """Return (news, related_news) for the given id, or None when it doesn't exist.
 
+    Related news are simply the latest other articles in the same category.
     Viewing the detail counts as a read, so the view counter is bumped here.
     """
     news_obj = await db.get(News, news_id)
@@ -48,9 +50,9 @@ async def get_news_detail(db: AsyncSession, news_id: int):
 
     related_result = await db.execute(
         select(News)
-        .join(RelatedNews, RelatedNews.related_news_id == News.id)
-        .where(RelatedNews.news_id == news_id)
+        .where(News.category_id == news_obj.category_id, News.id != news_id)
         .order_by(News.publish_time.desc())
+        .limit(RELATED_NEWS_LIMIT)
     )
     related_news = related_result.scalars().all()
 

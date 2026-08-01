@@ -22,7 +22,6 @@ from models import (  # noqa: E402,F401
     history,
     news,
     news_category,
-    related_news,
     user_token,
     users,
 )
