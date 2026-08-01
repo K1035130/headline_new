@@ -1,20 +1,18 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
 from routers import news, users
 from fastapi.middleware.cors import CORSMiddleware
+
+from utils.response import error_response
 
 app = FastAPI(title="Headline Backend")
 
 
-# Errors are returned in the same {code, message, data} envelope the endpoints
-# use, so the frontend can read `message` off both success and failure paths.
+# Errors go through the same envelope helper as successful responses, so the
+# frontend can read `message` off both paths.
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={"code": exc.status_code, "message": exc.detail, "data": None},
-    )
+    return error_response(exc.status_code, exc.detail)
 
 
 @app.exception_handler(RequestValidationError)
@@ -23,10 +21,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         f"{'.'.join(str(part) for part in err['loc'][1:])}: {err['msg']}"
         for err in exc.errors()
     )
-    return JSONResponse(
-        status_code=422,
-        content={"code": 422, "message": message or "Invalid request", "data": None},
-    )
+    return error_response(422, message or "Invalid request")
 
 
 @app.get("/health")
