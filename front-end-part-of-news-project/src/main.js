@@ -4,16 +4,16 @@ import router from './router'
 import pinia from './store'
 
 // 导入Vant组件库
-import { 
-  Button, 
-  NavBar, 
-  Tabbar, 
-  TabbarItem, 
-  Tab, 
-  Tabs, 
-  List, 
-  PullRefresh, 
-  Cell, 
+import {
+  Button,
+  NavBar,
+  Tabbar,
+  TabbarItem,
+  Tab,
+  Tabs,
+  List,
+  PullRefresh,
+  Cell,
   CellGroup,
   Grid,
   GridItem,
@@ -23,8 +23,11 @@ import {
   Image,
   Toast,
   Icon,
-  Popup
+  Popup,
+  Locale
 } from 'vant'
+import vantEnUS from 'vant/es/locale/lang/en-US'
+import vantZhCN from 'vant/es/locale/lang/zh-CN'
 
 // 导入Vant样式
 import 'vant/lib/index.css'
@@ -40,6 +43,11 @@ const app = createApp(App)
 // 设置i18n
 const i18n = setupI18n()
 app.use(i18n)
+
+// Vant 组件库有独立于 vue-i18n 的内置文案（如 van-list 的加载提示），
+// 需要单独设置语言，保持和应用当前语言一致
+const savedLanguage = localStorage.getItem('language') || 'en-US'
+Locale.use(savedLanguage, savedLanguage === 'zh-CN' ? vantZhCN : vantEnUS)
 
 // 注册Vant组件
 app.use(Button)

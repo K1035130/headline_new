@@ -20,4 +20,5 @@ app.add_middleware(
 
 # Include the news router
 app.include_router(news.router)
+# Include the users router
 app.include_router(users.router)
