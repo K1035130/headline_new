@@ -3,7 +3,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from config.db_conf import get_db
 from crud import news
-from schemas.news import NewsCategoryOut, NewsItemOut, NewsListData
+from schemas.news import (
+    NewsCategoryOut,
+    NewsDetailOut,
+    NewsItemOut,
+    NewsListData,
+    RelatedNewsItem,
+)
 
 router = APIRouter(prefix="/api/news", tags=["news"])
 
@@ -38,4 +44,26 @@ async def get_news_list(
             total=total,
             has_more=has_more,
         ),
+    }
+
+
+@router.get("/detail")
+async def get_news_detail(id: int, db: AsyncSession = Depends(get_db)):
+    result = await news.get_news_detail(db, news_id=id)
+
+    if result is None:
+        return {
+            "code": 404,
+            "message": "News not found",
+            "data": None,
+        }
+
+    news_obj, related_news = result
+    data = NewsDetailOut.model_validate(news_obj)
+    data.related_news = [RelatedNewsItem.model_validate(item) for item in related_news]
+
+    return {
+        "code": 200,
+        "message": "Success",
+        "data": data,
     }
