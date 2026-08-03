@@ -109,8 +109,10 @@ export const useHistoryStore = defineStore('history', {
     },
     
     // 删除单条浏览历史
+    // 接口按 historyId 删除，本地也优先按 historyId 匹配；
+    // 兼容 id 是为了未登录时基于本地数据（只有新闻 id）的删除
     removeHistory(id) {
-      this.history = this.history.filter(item => item.id !== id);
+      this.history = this.history.filter(item => item.historyId !== id && item.id !== id);
       this.saveHistory();
     },
     
