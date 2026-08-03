@@ -52,9 +52,13 @@ import { showToast } from 'vant';
 import * as marked from 'marked';
 import DOMPurify from 'dompurify';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { aiChatConfig } from '../config/api';
+import { useUserStore } from '../store/user';
 
 const { t } = useI18n();
+const router = useRouter();
+const userStore = useUserStore();
 
 // 聊天消息
 const messages = ref([
@@ -64,10 +68,22 @@ const userInput = ref('');
 const messagesContainer = ref(null);
 const isLoading = ref(false);
 
-// 从配置文件获取API设置
+// 后端代理地址（模型和 API Key 都由后端决定，前端不再持有）
 const apiEndpoint = ref(aiChatConfig.apiEndpoint);
-const apiKey = ref(aiChatConfig.apiKey);
-const model = ref(aiChatConfig.model);
+
+// 后端返回的错误码 -> 本地化文案；未知错误码回退到后端给的英文说明
+const ERROR_MESSAGE_KEYS = {
+  rate_limit: 'aiChat.rateLimited',
+  auth_failed: 'aiChat.serviceUnavailable',
+  model_unavailable: 'aiChat.serviceUnavailable',
+  timeout: 'aiChat.timeout',
+  unreachable: 'aiChat.checkNetworkAndSettings'
+};
+
+const describeError = (error) => {
+  const key = ERROR_MESSAGE_KEYS[error.code];
+  return key ? t(key) : (error.message || t('aiChat.checkNetworkAndSettings'));
+};
 
 // 格式化消息内容（支持Markdown）
 const formatMessage = (content) => {
@@ -80,12 +96,13 @@ const formatMessage = (content) => {
 const sendMessage = async () => {
   if (!userInput.value.trim() || isLoading.value) return;
   
-  // 检查API设置
-  if (!apiKey.value || apiKey.value === 'your-api-key-here') {
-    showToast(t('aiChat.apiKeyNotConfigured'));
+  // 接口需要登录
+  if (!userStore.getLoginStatus) {
+    showToast(t('aiChat.loginRequired'));
+    router.push('/login');
     return;
   }
-  
+
   // 添加用户消息
   const userMessage = userInput.value.trim();
   messages.value.push({ role: 'user', content: userMessage });
@@ -124,20 +141,16 @@ const fetchAIResponse = async (userMessage) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey.value}`,
-        // Conditionally add DashScope header for Alibaba Cloud endpoints
-        ...(apiEndpoint.value.includes('aliyuncs.com') ? { 'X-DashScope-SSE': 'enable' } : {})
+        'Authorization': userStore.token
       },
       body: JSON.stringify({
-        model: model.value,
-        messages: allMessages,
-        stream: true
+        messages: allMessages
       })
     });
-    
+
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      throw new Error(error.error?.message || `HTTP error! status: ${response.status}`);
+      throw new Error(error.message || `HTTP error! status: ${response.status}`);
     }
     
     // 处理SSE流
@@ -159,21 +172,27 @@ const fetchAIResponse = async (userMessage) => {
         const data = line.slice(6);
         if (data === '[DONE]') continue;
         
+        let json;
         try {
-          const json = JSON.parse(data);
-          // 适配阿里云DashScope的返回格式
-          const content = json.choices?.[0]?.delta?.content || 
-                         json.output?.text || 
-                         json.choices?.[0]?.message?.content || '';
-          if (content) {
-            aiResponse += content;
-            // 更新最后一条消息
-            messages.value[messages.value.length - 1].content = aiResponse;
-            await nextTick();
-            scrollToBottom();
-          }
+          json = JSON.parse(data);
         } catch (e) {
           console.error('Error parsing SSE data:', e);
+          continue;
+        }
+
+        // 后端把上游失败也放在这个流里下发，抛出去让外层统一显示错误
+        if (json.error) {
+          throw new Error(describeError(json.error));
+        }
+
+        const content = json.choices?.[0]?.delta?.content ||
+                       json.choices?.[0]?.message?.content || '';
+        if (content) {
+          aiResponse += content;
+          // 更新最后一条消息
+          messages.value[messages.value.length - 1].content = aiResponse;
+          await nextTick();
+          scrollToBottom();
         }
       }
     }

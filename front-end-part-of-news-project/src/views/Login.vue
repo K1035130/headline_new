@@ -42,11 +42,6 @@
             {{ $t('login.submit') }}
           </van-button>
         </div>
-
-        <div class="login-tips">
-          <p>{{ $t('login.testAccount') }}</p>
-          <p>{{ $t('login.testPassword') }}</p>
-        </div>
       </van-form>
     </div>
   </div>
@@ -139,16 +134,5 @@ const onClickLeft = () => {
 
 .submit-btn {
   margin: 24px 16px;
-}
-
-.login-tips {
-  text-align: center;
-  color: #969799;
-  font-size: 14px;
-  margin-top: 16px;
-}
-
-.login-tips p {
-  margin: 8px 0;
 }
 </style>

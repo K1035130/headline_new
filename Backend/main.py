@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
-from routers import favorite, history, news, users
+from routers import ai_chat, favorite, history, news, users
 from fastapi.middleware.cors import CORSMiddleware
 
 from utils.response import error_response
@@ -46,3 +46,5 @@ app.include_router(users.router)
 app.include_router(favorite.router)
 # Include the history router
 app.include_router(history.router)
+# Include the AI chat router
+app.include_router(ai_chat.router)

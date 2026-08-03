@@ -45,7 +45,10 @@ export default {
     send: 'Send',
     thinking: 'AI is thinking...',
     welcomeMessage: 'Hello! I\'m your AI assistant, how can I help you today?',
-    apiKeyNotConfigured: 'API key is not configured, please contact the administrator',
+    loginRequired: 'Please log in to use AI chat',
+    rateLimited: 'Rate limit reached — the free tier allows 5 requests per minute and 20 per day. Please wait a bit and try again.',
+    serviceUnavailable: 'The AI service is unavailable right now. Please try again later.',
+    timeout: 'The AI service took too long to respond. Please try again.',
     errorOccurred: 'An error occurred',
     checkNetworkAndSettings: 'Please check your network connection and API settings',
     noResponseFallback: 'Sorry, I could not generate a response. Please check the API settings or try again later.'
@@ -111,8 +114,6 @@ export default {
     passwordPlaceholder: 'Enter password',
     passwordRequired: 'Password is required',
     submit: 'Login',
-    testAccount: 'Test account: admin',
-    testPassword: 'Test password: 123456',
     loggingIn: 'Logging in...',
     loginFailed: 'Login failed, please try again later'
   },

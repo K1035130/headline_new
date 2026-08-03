@@ -9,13 +9,8 @@ export const apiConfig = {
   baseURL: 'http://127.0.0.1:8000',
 }
 
+// AI 问答走自己的后端代理：API Key 只存在于 Backend/.env，
+// 既不会进入版本控制，也不会随打包产物发到浏览器
 export const aiChatConfig = {
-  // API地址，请填入你自己的接口地址
-  apiEndpoint: '',
-
-  // API Key，请填入你自己的私人API Key
-  apiKey: '',
-
-  // 使用的模型
-  model: ''
+  apiEndpoint: `${apiConfig.baseURL}/api/ai/chat`
 }

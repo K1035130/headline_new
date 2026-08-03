@@ -45,7 +45,10 @@ export default {
     send: '发送',
     thinking: 'AI思考中...',
     welcomeMessage: '你好！我是AI助手，有什么可以帮助你的吗？',
-    apiKeyNotConfigured: 'API Key未配置，请联系管理员',
+    loginRequired: '请先登录后再使用 AI 问答',
+    rateLimited: '已达到调用上限——免费额度为每分钟 5 次、每天 20 次，请稍后再试。',
+    serviceUnavailable: 'AI 服务暂时不可用，请稍后再试。',
+    timeout: 'AI 服务响应超时，请重试。',
     errorOccurred: '发生错误',
     checkNetworkAndSettings: '请检查网络连接和API设置',
     noResponseFallback: '抱歉，我无法生成回复。请检查API设置或稍后再试。'
@@ -111,8 +114,6 @@ export default {
     passwordPlaceholder: '请输入密码',
     passwordRequired: '请填写密码',
     submit: '登录',
-    testAccount: '测试账号：admin',
-    testPassword: '测试密码：123456',
     loggingIn: '登录中...',
     loginFailed: '登录失败，请稍后再试'
   },
